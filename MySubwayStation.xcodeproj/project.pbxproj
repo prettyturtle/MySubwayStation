@@ -14,6 +14,8 @@
 		6B7EA796277361EF00EE8579 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EA794277361EE00EE8579 /* LaunchScreen.storyboard */; };
 		6B7EA79F277368F800EE8579 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7EA79E277368F800EE8579 /* SnapKit */; };
 		6B7EA7A227736C0F00EE8579 /* SubwayStationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7EA7A127736C0F00EE8579 /* SubwayStationTableViewCell.swift */; };
+		6B7EA7A42774290A00EE8579 /* StationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7EA7A32774290900EE8579 /* StationDetailViewController.swift */; };
+		6B7EA7A6277432B500EE8579 /* StationDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7EA7A5277432B500EE8579 /* StationDetailCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		6B7EA797277361EF00EE8579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B7EA7A02773691200EE8579 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6B7EA7A127736C0F00EE8579 /* SubwayStationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayStationTableViewCell.swift; sourceTree = "<group>"; };
+		6B7EA7A32774290900EE8579 /* StationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewController.swift; sourceTree = "<group>"; };
+		6B7EA7A5277432B500EE8579 /* StationDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				6B7EA789277361ED00EE8579 /* AppDelegate.swift */,
 				6B7EA78B277361ED00EE8579 /* SceneDelegate.swift */,
 				6B7EA78D277361ED00EE8579 /* SearchViewController.swift */,
+				6B7EA7A32774290900EE8579 /* StationDetailViewController.swift */,
+				6B7EA7A5277432B500EE8579 /* StationDetailCollectionViewCell.swift */,
 				6B7EA7A127736C0F00EE8579 /* SubwayStationTableViewCell.swift */,
 				6B7EA792277361EE00EE8579 /* Assets.xcassets */,
 				6B7EA794277361EE00EE8579 /* LaunchScreen.storyboard */,
@@ -149,8 +155,10 @@
 			files = (
 				6B7EA78E277361ED00EE8579 /* SearchViewController.swift in Sources */,
 				6B7EA78A277361ED00EE8579 /* AppDelegate.swift in Sources */,
+				6B7EA7A6277432B500EE8579 /* StationDetailCollectionViewCell.swift in Sources */,
 				6B7EA7A227736C0F00EE8579 /* SubwayStationTableViewCell.swift in Sources */,
 				6B7EA78C277361ED00EE8579 /* SceneDelegate.swift in Sources */,
+				6B7EA7A42774290A00EE8579 /* StationDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,3 +6,4 @@
 ### Library
 - SPM
     - SnapKit
+    - Alamofire
