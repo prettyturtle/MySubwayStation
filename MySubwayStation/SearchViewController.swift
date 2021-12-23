@@ -7,8 +7,11 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class SearchViewController: UIViewController {
+    
+    private var stations = [Station]()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -41,12 +44,14 @@ extension SearchViewController: UITableViewDelegate {
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return stations.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SubwayStationTableViewCell", for: indexPath) as? SubwayStationTableViewCell else { return UITableViewCell() }
         
-        cell.setupLayout()
+        let station = stations[indexPath.row]
+        
+        cell.setupViews(station: station)
         
         return cell
     }
@@ -54,15 +59,20 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("searchBarTextDidBeginEditing is Called!!")
         tableView.isHidden = false
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("searchBarTextDidEndEditing is Called!!!!")
+        stations = []
+        tableView.reloadData()
         tableView.isHidden = true
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        if searchText != "" {
+            fetchData(from: searchText)
+        } else {
+            stations = []
+            tableView.reloadData()
+        }
     }
     
 }
@@ -85,6 +95,21 @@ private extension SearchViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    func fetchData(from stationName: String) {
+        let url = "http://openapi.seoul.go.kr:8088/sample/json/SearchInfoBySubwayNameService/1/5/\(stationName)"
+        AF
+            .request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: StationResponseModel.self) { [weak self] response in
+                guard let self = self,
+                      case .success(let data) = response.result else { return }
+                
+                self.stations = data.stations
+                self.tableView.reloadData()
+                
+            }
+            .resume()
     }
 }
 
