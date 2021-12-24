@@ -14,6 +14,38 @@ class StationDetailViewController: UIViewController {
     private let station: Station
     private var realTimeArrivalList = [RealTimeArrival]()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(
+            self,
+            action: #selector(fetchData),
+            for: .valueChanged
+        )
+        
+        return refreshControl
+    }()
+    
+    @objc func fetchData() {
+        let stationName = station.stationName.last == "역" ? String(Array(station.stationName)[0..<station.stationName.count - 1]) : station.stationName
+        
+        let url = "http://swopenapi.seoul.go.kr/api/subway/sample/json/realtimeStationArrival/0/5/\(stationName)"
+        
+        AF
+            .request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: StationArrivalDataResponseModel.self) { [weak self] response in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                guard case .success(let data) = response.result else { return }
+                
+                self.realTimeArrivalList = data.realtimeArrivalList
+                print(data)
+                self.collectionView.reloadData()
+                
+            }
+            .resume()
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -21,6 +53,7 @@ class StationDetailViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(StationDetailCollectionViewCell.self, forCellWithReuseIdentifier: "StationDetailCollectionViewCell")
+        collectionView.refreshControl = refreshControl
         
         return collectionView
     }()
@@ -39,7 +72,7 @@ class StationDetailViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationItem()
         setupLayout()
-        fetchData(from: station)
+        fetchData()
     }
 }
 extension StationDetailViewController: UICollectionViewDelegateFlowLayout {
@@ -83,22 +116,5 @@ private extension StationDetailViewController {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
-    }
-    func fetchData(from station: Station) {
-        let stationName = station.stationName.last == "역" ? String(Array(station.stationName)[0..<station.stationName.count - 1]) : station.stationName
-
-        let url = "http://swopenapi.seoul.go.kr/api/subway/sample/json/realtimeStationArrival/0/5/\(stationName)"
-        
-        AF
-            .request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            .responseDecodable(of: StationArrivalDataResponseModel.self) { [weak self] response in
-                guard let self = self,
-                    case .success(let data) = response.result else { return }
-                
-                self.realTimeArrivalList = data.realtimeArrivalList
-                self.collectionView.reloadData()
-                
-            }
-            .resume()
     }
 }
