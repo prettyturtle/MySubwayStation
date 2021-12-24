@@ -15,7 +15,6 @@ class StationDetailCollectionViewCell: UICollectionViewCell {
         
         label.font = .systemFont(ofSize: 15.0, weight: .bold)
         label.textColor = .label
-        label.text = "왕십리행 - 왕십리 방면"
         
         return label
     }()
@@ -25,15 +24,22 @@ class StationDetailCollectionViewCell: UICollectionViewCell {
         
         label.font = .systemFont(ofSize: 15.0, weight: .medium)
         label.textColor = .secondaryLabel
-        label.text = "전역 도착"
         
         return label
     }()
 }
 
 extension StationDetailCollectionViewCell {
-    func setupLayout() {
+    func setupViews(realTimeArrival: RealTimeArrival) {
         setupCollectionViewCell()
+        setupLayout()
+        
+        lineLabel.text = "\(realTimeArrival.line)"
+        remainTimeLabel.text = "\(realTimeArrival.remainTime)"
+        
+    }
+    func setupLayout() {
+        
         [
             lineLabel,
             remainTimeLabel
